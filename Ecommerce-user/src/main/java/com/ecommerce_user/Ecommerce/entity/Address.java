@@ -17,7 +17,7 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "t_ecom_usr_add_id")
-    private long id;
+    private Long id;
 
     @Column(nullable = false,name = "t_ecom_usr_add_l1")
     @NotBlank(message = "Address line 1 should not be blank")

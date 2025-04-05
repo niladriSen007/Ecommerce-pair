@@ -19,12 +19,15 @@ import java.util.HashSet;
 @Setter
 @NoArgsConstructor //It will create the default constructor without any parameters
 @AllArgsConstructor //It will create a constructor with all parameters
-@Table(name = "t_ecom_user")
+@Table(name = "t_ecom_user", indexes = {
+        @Index(name = "idx_t_ecom_usr_email", columnList = "t_ecom_usr_email"),
+        @Index(name = "idx_t_ecom_usr_name", columnList = "t_ecom_usr_f_name,t_ecom_usr_l_name")
+})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "t_ecom_usr_id")
-    private long id;
+    private Long id;
 
     @Column(nullable = false, name = "t_ecom_usr_f_name")
     @NotBlank(message = "First name should not be blank")
@@ -60,10 +63,10 @@ public class User {
     private Gender gender;
 
     @CreatedDate
-    @Column(updatable = false, nullable = false, name = "t_ecom_usr_crt_at")
+    @Column(updatable = false, name = "t_ecom_usr_crt_at")
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(nullable = false, name = "t_ecom_usr_updt_at")
+    @Column(name = "t_ecom_usr_updt_at")
     private LocalDateTime updatedAt;
 }
