@@ -10,11 +10,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @NoArgsConstructor //It will create the default constructor without any parameters
@@ -63,9 +65,10 @@ public class User {
     private Gender gender;
 
     @CreatedDate
-    @Column(updatable = false, name = "t_ecom_usr_crt_at")
+    @Column(updatable = false, name = "t_ecom_usr_crt_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
+    //TODO: NOT WORKING the date inundation
     @LastModifiedDate
     @Column(name = "t_ecom_usr_updt_at")
     private LocalDateTime updatedAt;
