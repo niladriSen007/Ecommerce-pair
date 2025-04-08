@@ -14,6 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -47,7 +48,7 @@ public class User {
     //One user can have multiple addresses
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "fk_t_ecom_add_usr_id", referencedColumnName = "t_ecom_usr_id")
-    private HashSet<Address> address = new HashSet<>();
+    private Set<Address> address = new HashSet<>();
 
     @NotBlank(message = "Password should not be blank")
     @Column(nullable = false, name = "t_ecom_usr_password")

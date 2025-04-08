@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: Ecommerce-Api-Gateway
+  cloud:
+    gateway:
+      routes:
+        - id: Ecommerce-product
+          uri: lb://ECOMMERCE-PRODUCT
+          predicates:
+            - Path=/api/v1/products/**
+          filters:
+            - StripPrefix=2
+        - id: Ecommerce-user
+          uri: lb://ECOMMERCE-USER
+          predicates:
+            - Path=/api/v1/users/**
+          filters:
+            - StripPrefix=2
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+server:
+  port: 8000
