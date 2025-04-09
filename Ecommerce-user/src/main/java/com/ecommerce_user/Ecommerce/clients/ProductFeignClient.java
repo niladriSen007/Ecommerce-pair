@@ -8,4 +8,7 @@ public interface ProductFeignClient {
 
     @GetMapping("/getAllProducts")
     public String getAllProducts();
+
+    @GetMapping("/getProductById")
+    public String getProductById(Long id);
 }

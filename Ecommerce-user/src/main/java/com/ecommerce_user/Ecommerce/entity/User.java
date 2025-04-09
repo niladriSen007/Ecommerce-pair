@@ -47,7 +47,7 @@ public class User {
 
     //One user can have multiple addresses
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "fk_t_ecom_add_usr_id", referencedColumnName = "t_ecom_usr_id")
+    @JoinColumn(name = "fk_t_ecom_usr_add_id", referencedColumnName = "t_ecom_usr_id")
     private Set<Address> address = new HashSet<>();
 
     @NotBlank(message = "Password should not be blank")
@@ -64,6 +64,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "t_ecom_usr_gender")
     private Gender gender;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_t_ecom_usr_wishlist_id", referencedColumnName = "t_ecom_usr_id")
+    private Wishlist wishlist;
 
     @CreatedDate
     @Column(updatable = false, name = "t_ecom_usr_crt_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
