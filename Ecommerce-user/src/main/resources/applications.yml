@@ -1,0 +1,73 @@
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+resilience4j:
+  retry:
+    configs:
+      default:
+        maxRetryAttempts: 3
+        waitDuration: 100ms
+    #        retry-exceptions:
+    #          - org.springframework.web.client.HttpClientErrorException
+    #          - org.springframework.web.client.ResourceAccessException
+    #        ignore-exceptions:
+    #          - java.lang.Exception
+    instances:
+      #      product-service:
+      #        base-retry-config: default
+      #      order-service:
+      #        base-retry-config: default
+      #      payment-service:
+      #        base-retry-config: default
+      UserCreationRetry:
+        baseConfig: default
+        waitDuration: 200ms
+  ratelimiter:
+    #    config:
+    #      default:
+    #        limit-for-period: 10
+    #        limit-refresh-period: 1s
+    #        limit-for-burst: 5
+    instances:
+      #      product-service:
+      #        base-rate-limiter-config: default
+      #      order-service:
+      #        base-rate-limiter-config: default
+      #      payment-service:
+      #        base-rate-limiter-config: default
+      UserCreationRateLimiter:
+        limitForPeriod: 1
+        limitRefreshPeriod: 3s
+        timeoutDuration: 10ms
+  circuitbreaker:
+    #    configs:
+    #      default:
+    #        sliding-window-size: 10
+    #        minimum-number-of-calls: 5
+    #        failure-rate-threshold: 50
+    #        wait-duration-in-open-state: 1000ms
+    #        permitted-number-of-calls-in-half-open-state: 3
+    instances:
+      #      product-service:
+      #        base-circuit-breaker-config: default
+      #      order-service:
+      #        base-circuit-breaker-config: default
+      #      payment-service:
+      #        base-circuit-breaker-config: default
+      UserCreationCircuitBreaker:
+        registerHealthIndicator: true  # Expose circuit breaker health via the actuator
+        slidingWindowSize: 10          # Size of the sliding window for call recording
+        slidingWindowType: COUNT_BASED # Use count-based sliding window
+        minimumNumberOfCalls: 10       # Minimum number of calls before calculating failure rate
+        failureRateThreshold: 50       # If 50% (5 out of 10) calls fail, the circuit goes to OPEN state
+        waitDurationInOpenState: 1s   # Time the circuit stays OPEN before moving to HALF_OPEN
+        permittedNumberOfCallsInHalfOpenState: 3  # Number of test calls in HALF_OPEN state
+        eventConsumerBufferSize: 10    # Buffer size for event logs
