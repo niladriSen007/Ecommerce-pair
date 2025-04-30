@@ -1,3 +1,6 @@
+jwt:
+    secretKey: 3c6e0b8a9c15224a8228b9a98ca1531d
+    expiration: 86400000
 spring:
   application:
     name: Ecommerce-Api-Gateway
@@ -16,6 +19,13 @@ spring:
             - Path=/api/v1/users/**
           filters:
             - StripPrefix=2
+            - name: LoggingSpecificRouteFilter
+            - name: AuthenticationFilter
+              args:
+                isEnabled: true
+            - name:  AuthorizationFilter
+              args:
+                allowedRoles: ADMIN,SUPER_ADMIN
 eureka:
   client:
     service-url:

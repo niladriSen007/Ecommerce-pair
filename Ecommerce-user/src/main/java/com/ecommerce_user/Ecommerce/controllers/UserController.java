@@ -24,7 +24,7 @@ public class UserController {
     private final ProductFeignClient productFeignClient;
 
     @PostMapping("/register")
-    public String registerUser(@RequestBody UserDto userDto) {
+    public String registerUser(@RequestBody UserDto userDto,@RequestHeader("X-User-Id") String userId) {
         return userService.createUser(userDto);
     }
 
